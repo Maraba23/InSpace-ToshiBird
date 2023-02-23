@@ -45,7 +45,7 @@ def gameloop(state, assets):
     clock = pygame.time.Clock()
     # set caption
     pygame.display.set_caption("InSpace Toshi Bird")
-    FPS = 60
+    FPS = 500
 
     while True:
         for event in pygame.event.get():
@@ -54,7 +54,10 @@ def gameloop(state, assets):
                 exit()
             else:
                 if state['tela_atual'] == 'menu':
+                    # add music folder
+                    pygame.mixer.music.load('musicas/RUSH E [vocals] (mp3cut.net).mp3')
                     main_menu(window, assets, state, clock, FPS)
+                    # pygame.mixer.music.play()
                 elif state['tela_atual'] == 'story':
                     story_screen(window, assets, state, clock, FPS)
                 elif state['tela_atual'] == 'instructions':
