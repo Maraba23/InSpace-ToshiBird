@@ -15,7 +15,11 @@ assets = {'width': SCREEN_WIDTH,
           'menu3': 'images/main_menu3.png',
           'menu4': 'images/main_menu4.png',
           'story': 'images/story.png',
-          'instructions': 'images/instructions.png'}
+          'instructions': 'images/instructions.png',
+          'e_sound': 'musicas/RUSH E [vocals] (mp3cut.net).mp3'}
+
+pygame.mixer.init()
+pygame.mixer.music.load(assets['e_sound'])
 
 telas = ['menu', 'story', 'instructions', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
 
@@ -39,29 +43,21 @@ planeta_pos_x, planeta_pos_y = random.randint(SCREEN_WIDTH * 0.1, SCREEN_WIDTH *
 
 def gameloop(state, assets):
     pygame.init()
-
     window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
-    clock = pygame.time.Clock()
-    # set caption
     pygame.display.set_caption("InSpace Toshi Bird")
-    FPS = 500
+    clock = pygame.time.Clock()
+    FPS = 24
 
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            else:
-                if state['tela_atual'] == 'menu':
-                    # add music folder
-                    pygame.mixer.music.load('musicas/RUSH E [vocals] (mp3cut.net).mp3')
-                    main_menu(window, assets, state, clock, FPS)
-                    # pygame.mixer.music.play()
-                elif state['tela_atual'] == 'story':
-                    story_screen(window, assets, state, clock, FPS)
-                elif state['tela_atual'] == 'instructions':
-                    instructions_screen(window, assets, state, clock, FPS)
+        print(state['tela_atual'])
+        if state['tela_atual'] == 'menu':
+            main_menu(window, assets, state)
+        elif state['tela_atual'] == 'story':
+            story_screen(window, assets, state)
+        elif state['tela_atual'] == 'instructions':
+            instructions_screen(window, assets, state)
+        clock.tick(FPS)
+        pygame.display.update()
 
 if __name__ == "__main__":
     gameloop(state, assets)
