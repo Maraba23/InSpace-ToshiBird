@@ -56,7 +56,6 @@ def gameloop(state, assets):
     FPS = 100
 
     while True:
-        # print(state['tela_atual'])
         if state['tela_atual'] == 'menu':
             main_menu(window, assets, state)
         elif state['tela_atual'] == 'story':
