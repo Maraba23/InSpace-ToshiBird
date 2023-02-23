@@ -54,7 +54,7 @@ def update_state(state, assets):
         state['tela_atual'] = 'fase2_instrucoes'
 
 def fase1_instructions(window, assets, state):
-    img = pygame.image.load(assets['fase1_instrucoes']).convert_alpha()
+    img = pygame.image.load(assets['fase1_instrucoes']).convert()
     img = pygame.transform.scale(img, (1280, 720))
     window.blit(img, (0, 0))
     for event in pygame.event.get():
@@ -67,15 +67,15 @@ def fase1_instructions(window, assets, state):
 
 def fase1_game(window, assets, state):
     if state['vidas'] == 3:
-        fase = pygame.image.load(assets['fases_3vidas']).convert_alpha()
+        fase = pygame.image.load(assets['fases_3vidas']).convert()
         fase = pygame.transform.scale(fase, (1280, 720))
         window.blit(fase, (0, 0))
     elif state['vidas'] == 2:
-        fase = pygame.image.load(assets['fases_2vidas']).convert_alpha()
+        fase = pygame.image.load(assets['fases_2vidas']).convert()
         fase = pygame.transform.scale(fase, (1280, 720))
         window.blit(fase, (0, 0))
     elif state['vidas'] == 1:
-        fase = pygame.image.load(assets['fases_1vidas']).convert_alpha()
+        fase = pygame.image.load(assets['fases_1vidas']).convert()
         fase = pygame.transform.scale(fase, (1280, 720))
         window.blit(fase, (0, 0))
     character = pygame.image.load(assets['character']).convert_alpha()

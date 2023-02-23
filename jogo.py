@@ -66,7 +66,7 @@ def gameloop(state, assets):
     window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("InSpace Toshi Bird")
     clock = pygame.time.Clock()
-    FPS = 60
+    FPS = 100
 
     while True:
         if state['tela_atual'] == 'menu':
