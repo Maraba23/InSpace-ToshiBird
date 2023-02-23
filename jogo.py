@@ -3,15 +3,18 @@ import numpy as np
 import random
 from menu import main_menu, story_screen, instructions_screen
 from fase1 import fase1_instructions, fase1_game
+from fase2 import fase2_instructions, fase2_game
+from gameover import game_over_screen
 
 SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 860
+SCREEN_HEIGHT = 720
 BLACK = (0, 0, 0)
 
 planeta_pos_x, planeta_pos_y = random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6)
 
 assets = {'width': SCREEN_WIDTH,
           'height': SCREEN_HEIGHT,
+          'gameover': 'images/gameover.png',
           'background': 'images/background.png',
           'menu1': 'images/main_menu1.png',
           'menu2': 'images/main_menu2.png',
@@ -20,15 +23,14 @@ assets = {'width': SCREEN_WIDTH,
           'story': 'images/story.png',
           'instructions': 'images/instructions.png',
           'e_sound': 'musicas/RUSH E [vocals] (mp3cut.net).mp3',
+          'gameover_song': 'musicas/Curb_Your_Enthusiasm_Meme_Frolic_-_Background_Music_HD.mp3',
           'fases_3vidas': 'images/fases_3vidas.png',
           'fases_2vidas': 'images/fases_2vidas.png',
           'fases_1vidas': 'images/fases_1vidas.png',
           'character': 'images/toshi.png',
           'planeta': 'images/planeta.png',
-          'fase1_instrucoes': 'images/fase1_instrucoes.png'}
-
-pygame.mixer.init()
-pygame.mixer.music.load(assets['e_sound'])
+          'fase1_instrucoes': 'images/fase1_instrucoes.png',
+          'fase2_instrucoes': 'images/fase2_instrucoes.png'}
 
 telas = ['menu', 'story', 'instructions', 'fase1_instrucoes', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
 
@@ -46,14 +48,19 @@ state = {'tela_atual': 'menu',
          'char_acc': (0, 0),
          'char_mass': 1,
          'is_moving': False,
-         'target_pos': ((1190, 235), (1280, 365))}
+         'target_pos': ((1190, 196), (1280, 305))}
+
+pygame.mixer.init()
+pygame.mixer.music.load(assets['e_sound'])
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play()
 
 def gameloop(state, assets):
     pygame.init()
     window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("InSpace Toshi Bird")
     clock = pygame.time.Clock()
-    FPS = 100
+    FPS = 60
 
     while True:
         if state['tela_atual'] == 'menu':
@@ -66,6 +73,12 @@ def gameloop(state, assets):
             fase1_instructions(window, assets, state)
         elif state['tela_atual'] == 'fase1':
             fase1_game(window, assets, state)
+        elif state['tela_atual'] == 'fase2_instrucoes':
+            fase2_instructions(window, assets, state)
+        elif state['tela_atual'] == 'fase2':
+            fase2_game(window, assets, state)
+        elif state['tela_atual'] == 'game_over':
+            game_over_screen(window, state, assets)
 
         clock.tick(FPS)
         pygame.display.update()

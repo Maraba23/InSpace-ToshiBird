@@ -1,29 +1,19 @@
 import pygame
 import random
 import math
+from fase1 import dist, target_reached, out_of_bounds
 
 G_CONST = 10
 
-def dist(p1, p2):
-    return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
-
-def target_reached(state):
-    target_rect = pygame.Rect(state['target_pos'][0][0], state['target_pos'][0][1], state['target_pos'][1][0] - state['target_pos'][0][0], state['target_pos'][1][1] - state['target_pos'][0][1])
-    char_rect = pygame.Rect(state['char_pos'][0], state['char_pos'][1], 75, 75)
-    return char_rect.colliderect(target_rect)
-
 def collision_planeta(state):
-    planeta_rect = pygame.Rect(state['planeta1_pos'][0], state['planeta1_pos'][1], 120, 120)
+    planeta_rect = pygame.Rect(state['planeta2_pos'][0], state['planeta2_pos'][1], 120, 120)
     char_rect = pygame.Rect(state['char_pos'][0], state['char_pos'][1], 75, 75)
     return char_rect.colliderect(planeta_rect)
 
-def out_of_bounds(state):
-    return state['char_pos'][0] < 0 or state['char_pos'][0] > 1280 or state['char_pos'][1] < 0 or state['char_pos'][1] > 860
-
 def update_state(state, assets):
-    f_grav = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta1_pos']) ** 2)
+    f_grav = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta2_pos']) ** 2)
     # get the angle between the character and the center of the planet
-    angle_p = math.atan2(state['planeta1_pos'][1] - state['char_pos'][1], state['planeta1_pos'][0] - state['char_pos'][0])
+    angle_p = math.atan2(state['planeta2_pos'][1] - state['char_pos'][1], state['planeta2_pos'][0] - state['char_pos'][0])
     # calculate the acceleration vector
     acc_x = f_grav * math.cos(angle_p)
     acc_y = f_grav * math.sin(angle_p)
@@ -36,25 +26,24 @@ def update_state(state, assets):
     print(state['char_acc'])
     if collision_planeta(state):
         state['is_moving'] = False
-        state['tela_atual'] = 'fase1'
+        state['tela_atual'] = 'fase2'
         state['vidas'] -= 1
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         if state['vidas'] == 0:
             state['tela_atual'] = 'game_over'
     elif out_of_bounds(state):
         state['is_moving'] = False
-        state['tela_atual'] = 'fase1'
+        state['tela_atual'] = 'fase2'
         state['vidas'] -= 1
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         if state['vidas'] == 0:
             state['tela_atual'] = 'game_over'
     elif target_reached(state):
-        state['char_pos'] = (int(75/2), int(assets['height']/2))
         state['is_moving'] = False
-        state['tela_atual'] = 'fase2_instrucoes'
+        state['tela_atual'] = 'fase3_instrucoes'
 
-def fase1_instructions(window, assets, state):
-    img = pygame.image.load(assets['fase1_instrucoes']).convert_alpha()
+def fase2_instructions(window, assets, state):
+    img = pygame.image.load(assets['fase2_instrucoes']).convert_alpha()
     img = pygame.transform.scale(img, (1280, 720))
     window.blit(img, (0, 0))
     for event in pygame.event.get():
@@ -65,7 +54,7 @@ def fase1_instructions(window, assets, state):
             if event.key == pygame.K_SPACE:
                 state['tela_atual'] = 'fase1'
 
-def fase1_game(window, assets, state):
+def fase2_game(window, assets, state):
     if state['vidas'] == 3:
         fase = pygame.image.load(assets['fases_3vidas']).convert_alpha()
         fase = pygame.transform.scale(fase, (1280, 720))
@@ -83,7 +72,7 @@ def fase1_game(window, assets, state):
     window.blit(character, (state['char_pos'][0], state['char_pos'][1]))
     planeta = pygame.image.load(assets['planeta']).convert_alpha()
     planeta = pygame.transform.scale(planeta, (120, 120))
-    window.blit(planeta, (state['planeta1_pos'][0], state['planeta1_pos'][1]))
+    window.blit(planeta, (state['planeta2_pos'][0], state['planeta2_pos'][1]))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()

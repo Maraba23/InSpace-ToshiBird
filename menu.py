@@ -1,7 +1,9 @@
 import pygame
 
 def main_menu(window: pygame.Surface, assets: dict, state: dict):
-    window.blit(pygame.image.load(assets['menu4']), (0, 0))
+    menu = pygame.image.load(assets['menu4']).convert_alpha()
+    menu = pygame.transform.scale(menu, (1280, 720))
+    window.blit(menu, (0, 0))
     for event in pygame.event.get():
         if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_SPACE):
             state['tela_atual'] = 'story'
@@ -11,7 +13,9 @@ def main_menu(window: pygame.Surface, assets: dict, state: dict):
             exit()
 
 def story_screen(window: pygame.Surface, assets: dict, state: dict):
-    window.blit(pygame.image.load(assets['story']), (0, 0))
+    story = pygame.image.load(assets['story']).convert_alpha()
+    story = pygame.transform.scale(story, (1280, 720))
+    window.blit(story, (0, 0))
     for event in pygame.event.get():
         if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_SPACE):
             state['tela_atual'] = 'instructions'
@@ -21,7 +25,9 @@ def story_screen(window: pygame.Surface, assets: dict, state: dict):
             exit()
 
 def instructions_screen(window: pygame.Surface, assets: dict, state: dict):
-    window.blit(pygame.image.load(assets['instructions']), (0, 0))
+    instructinos = pygame.image.load(assets['instructions']).convert_alpha()
+    instructinos = pygame.transform.scale(instructinos, (1280, 720))
+    window.blit(instructinos, (0, 0))
     for event in pygame.event.get():
         if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_SPACE):
             state['tela_atual'] = 'fase1_instrucoes'
