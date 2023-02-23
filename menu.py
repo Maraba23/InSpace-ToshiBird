@@ -24,7 +24,7 @@ def instructions_screen(window: pygame.Surface, assets: dict, state: dict):
     window.blit(pygame.image.load(assets['instructions']), (0, 0))
     for event in pygame.event.get():
         if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_SPACE):
-            state['tela_atual'] = 'fase1'
+            state['tela_atual'] = 'fase1_instrucoes'
             pygame.mixer.music.play()
         elif event.type == pygame.QUIT:
             pygame.quit()
