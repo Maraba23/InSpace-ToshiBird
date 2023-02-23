@@ -56,15 +56,14 @@ def update_state(state, assets):
 
 def fase1_instructions(window, assets, state):
     window.blit(pygame.image.load(assets['fase1_instrucoes']), (0, 0))
-    pygame.mixer.music.stop()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                state['tela_atual'] = 'fase1'
                 pygame.mixer.music.play()
+                state['tela_atual'] = 'fase1'
 
 def fase1_game(window, assets, state):
     if state['vidas'] == 3:
@@ -79,7 +78,6 @@ def fase1_game(window, assets, state):
     planeta = pygame.image.load(assets['planeta'])
     planeta = pygame.transform.scale(planeta, (120, 120))
     window.blit(planeta, (state['planeta1_pos'][0], state['planeta1_pos'][1]))
-    pygame.mixer.music.stop()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
