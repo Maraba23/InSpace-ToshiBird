@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 import random
-from menu import main_menu
+from menu import main_menu, story_screen
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 860
@@ -9,13 +9,14 @@ BLACK = (0, 0, 0)
 
 assets = {'width': SCREEN_WIDTH,
           'height': SCREEN_HEIGHT,
-          'background': 'images/background.jpg',
+          'background': 'images/background.png',
           'menu1': 'images/main_menu1.png',
           'menu2': 'images/main_menu2.png',
           'menu3': 'images/main_menu3.png',
-          'menu4': 'images/main_menu4.png'}
+          'menu4': 'images/main_menu4.png',
+          'story': 'images/story.png',}
 
-telas = ['menu', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
+telas = ['menu', 'story', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
 
 state = {'tela_atual': 'menu',
          'quit': False,
@@ -23,7 +24,7 @@ state = {'tela_atual': 'menu',
          'telas': telas,
          'ganhou': False}
 
-window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+'''window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 personagens = ["images/personagem_soos.jpeg", "images/personagem_soos2.jpeg"]
 personagem = pygame.image.load(random.choice(personagens))
@@ -33,10 +34,12 @@ planeta = pygame.image.load("images/planeta-removebg-preview.png")
 planeta = pygame.transform.scale(planeta, (120, 100))
 
 planeta_pos_x, planeta_pos_y = random.randint(SCREEN_WIDTH * 0.1, SCREEN_WIDTH * 0.9), random.randint(
-    SCREEN_HEIGHT * 0.05, SCREEN_HEIGHT * 0.95)
+    SCREEN_HEIGHT * 0.05, SCREEN_HEIGHT * 0.95)'''
 
-def gameloop(window, state, assets):
+def gameloop(state, assets):
     pygame.init()
+
+    window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
     clock = pygame.time.Clock()
     # set caption
@@ -44,10 +47,17 @@ def gameloop(window, state, assets):
     FPS = 60
 
     while True:
-        if state['tela_atual'] == 'menu':
-            main_menu(window, assets, state, clock, FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            else:
+                if state['tela_atual'] == 'menu':
+                    main_menu(window, assets, state, clock, FPS)
+                elif state['tela_atual'] == 'story':
+                    story_screen(window, assets, state, clock, FPS)
 
 if __name__ == "__main__":
-    gameloop(window, state, assets)
+    gameloop(state, assets)
 
 
