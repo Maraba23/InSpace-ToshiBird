@@ -5,12 +5,15 @@ from menu import main_menu, story_screen, instructions_screen
 from fase1 import fase1_instructions, fase1_game
 from fase2 import fase2_instructions, fase2_game
 from gameover import game_over_screen
+from fase3 import fase3_instructions, fase3_game
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 BLACK = (0, 0, 0)
 
 planeta_pos_x, planeta_pos_y = random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6)
+
+planeta1_x, planeta1_y, planeta2_x, planeta2_y = random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6), random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6)
 
 assets = {'width': SCREEN_WIDTH,
           'height': SCREEN_HEIGHT,
@@ -30,7 +33,8 @@ assets = {'width': SCREEN_WIDTH,
           'character': 'images/toshi.png',
           'planeta': 'images/planeta.png',
           'fase1_instrucoes': 'images/fase1_instrucoes.png',
-          'fase2_instrucoes': 'images/fase2_instrucoes.png'}
+          'fase2_instrucoes': 'images/fase2_instrucoes.png',
+          'fase3_instrucoes': 'images/fase3_instrucoes.png'}
 
 telas = ['menu', 'story', 'instructions', 'fase1_instrucoes', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
 
@@ -42,7 +46,9 @@ state = {'tela_atual': 'menu',
          'vidas': 3,
          'planeta1_pos': (610, 430),
          'planeta2_pos': (planeta_pos_x, planeta_pos_y),
+         'planeta3_pos': ((planeta1_x, planeta1_y), (planeta2_x, planeta2_y)),
          'planeta1_mass': 1500,
+         'planeta2_mass': 1000,
          'char_pos': (int(75/2), int(assets['height']/2)),
          'char_vel': (0, 0),
          'char_acc': (0, 0),
@@ -79,6 +85,10 @@ def gameloop(state, assets):
             fase2_game(window, assets, state)
         elif state['tela_atual'] == 'game_over':
             game_over_screen(window, state, assets)
+        elif state['tela_atual'] == 'fase3_instrucoes':
+            fase3_instructions(window, assets, state)
+        elif state['tela_atual'] == 'fase3':
+            fase3_game(window, assets, state)
 
         clock.tick(FPS)
         pygame.display.update()
