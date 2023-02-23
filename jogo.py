@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 import random
-from menu import main_menu, story_screen
+from menu import main_menu, story_screen, instructions_screen
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 860
@@ -14,9 +14,10 @@ assets = {'width': SCREEN_WIDTH,
           'menu2': 'images/main_menu2.png',
           'menu3': 'images/main_menu3.png',
           'menu4': 'images/main_menu4.png',
-          'story': 'images/story.png',}
+          'story': 'images/story.png',
+          'instructions': 'images/instructions.png'}
 
-telas = ['menu', 'story', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
+telas = ['menu', 'story', 'instructions', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
 
 state = {'tela_atual': 'menu',
          'quit': False,
@@ -56,6 +57,8 @@ def gameloop(state, assets):
                     main_menu(window, assets, state, clock, FPS)
                 elif state['tela_atual'] == 'story':
                     story_screen(window, assets, state, clock, FPS)
+                elif state['tela_atual'] == 'instructions':
+                    instructions_screen(window, assets, state, clock, FPS)
 
 if __name__ == "__main__":
     gameloop(state, assets)
