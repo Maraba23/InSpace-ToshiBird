@@ -50,7 +50,7 @@ def update_state(state, assets):
         if state['vidas'] == 0:
             state['tela_atual'] = 'game_over'
             pygame.mixer.music.stop()
-    if target_reached(state):
+    elif target_reached(state):
         state['is_moving'] = False
         state['tela_atual'] = 'fase2'
 
