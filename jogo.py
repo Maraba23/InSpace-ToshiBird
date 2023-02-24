@@ -50,7 +50,7 @@ assets = {'width': SCREEN_WIDTH,
 
 telas = ['menu', 'story', 'instructions', 'fase1_instrucoes', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
 
-state = {'tela_atual': 'fase5',
+state = {'tela_atual': 'menu',
          'quit': False,
          'perdeu': False,
          'telas': telas,
