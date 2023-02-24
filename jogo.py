@@ -1,13 +1,14 @@
 import pygame
 import numpy as np
 import random
-from menu import main_menu, story_screen, instructions_screen
+from menu import main_menu, story_screen, instructions_screen, win_screen_no_challenges, win_screen_challenges
 from fase1 import fase1_instructions, fase1_game
 from fase2 import fase2_instructions, fase2_game
 from gameover import game_over_screen
 from fase3 import fase3_instructions, fase3_game
 from fase4 import fase4_instructions, fase4_game
 from fase5 import fase5_instructions, fase5_game
+from desafio import desafio_instructions, desafio_game
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -42,11 +43,14 @@ assets = {'width': SCREEN_WIDTH,
           'fase2_instrucoes': 'images/fase2_instrucoes.png',
           'fase3_instrucoes': 'images/fase3_instrucoes.png',
           'fase4_instrucoes': 'images/fase4_instrucoes.png',
-          'fase5_instrucoes': 'images/fase5_instrucoes.png'}
+          'fase5_instrucoes': 'images/fase5_instrucoes.png',
+          'desafio_instrucoes': 'images/desafio_instrucoes.png',
+          'win_no_challenge': 'images/win_no.png',
+          'win_challenge': 'images/win_challenge.png'}
 
 telas = ['menu', 'story', 'instructions', 'fase1_instrucoes', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
 
-state = {'tela_atual': 'menu',
+state = {'tela_atual': 'fase5',
          'quit': False,
          'perdeu': False,
          'telas': telas,
@@ -55,6 +59,8 @@ state = {'tela_atual': 'menu',
          'planeta1_pos': (610, 430),
          'planeta2_pos': (planeta_pos_x, planeta_pos_y),
          'planeta3_pos': ((planeta1_x, planeta1_y), (planeta2_x, planeta2_y)),
+         'planeta4_pos': [(300, 100), (900, 600)],
+         'planeta4_vel': [(0, 10), (0, -10)],
          'buraco_negro_pos': (610, 430),
          'buraco_branco_pos': (500, 25),
          'planeta1_mass': 1500,
@@ -108,6 +114,14 @@ def gameloop(state, assets):
             fase5_instructions(window, assets, state)
         elif state['tela_atual'] == 'fase5':
             fase5_game(window, assets, state)
+        elif state['tela_atual'] == 'desafio_instrucoes':
+            desafio_instructions(window, assets, state)
+        elif state['tela_atual'] == 'desafio':
+            desafio_game(window, assets, state)
+        elif state['tela_atual'] == 'win_no_challenge':
+            win_screen_no_challenges(window, assets, state)
+        elif state['tela_atual'] == 'win_challenge':
+            win_screen_challenges(window, assets, state)
 
         clock.tick(FPS)
         pygame.display.update()

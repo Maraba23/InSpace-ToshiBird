@@ -40,8 +40,8 @@ def update_state(state, assets):
     elif target_reached(state):
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         state['is_moving'] = False
-        state['tela_atual'] = 'fase6_instrucoes'
-        state['vidas'] = 5
+        state['tela_atual'] = 'desafio_instrucoes'
+        state['vidas'] = 1
 
 def fase5_instructions(window, assets, state):
     img = pygame.image.load(assets['fase5_instrucoes']).convert()
@@ -88,8 +88,10 @@ def fase5_game(window, assets, state):
             exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                state['vidas'] = 3
                 state['tela_atual'] = 'menu'
+                state['vidas'] = 3
+                state['char_pos'] = (int(75/2), int(assets['height']/2))
+                state['is_moving'] = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1 and not state['is_moving']:
                 # get mouse position

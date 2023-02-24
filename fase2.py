@@ -79,8 +79,10 @@ def fase2_game(window, assets, state):
             exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                state['vidas'] = 3
                 state['tela_atual'] = 'menu'
+                state['vidas'] = 3
+                state['char_pos'] = (int(75/2), int(assets['height']/2))
+                state['is_moving'] = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1 and not state['is_moving']:
                 # get mouse position

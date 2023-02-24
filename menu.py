@@ -35,3 +35,32 @@ def instructions_screen(window: pygame.Surface, assets: dict, state: dict):
         elif event.type == pygame.QUIT:
             pygame.quit()
             exit()
+
+def win_screen_no_challenges(window, assets, state):
+    win_no = pygame.image.load(assets['win_no_challenge']).convert_alpha()
+    win_no = pygame.transform.scale(win_no, (1280, 720))
+    window.blit(win_no, (0, 0))
+    for event in pygame.event.get():
+        if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_SPACE):
+            state['tela_atual'] = 'menu'
+            state['vidas'] = 3
+            state['char_pos'] = (int(75/2), int(assets['height']/2))
+            state['is_moving'] = False
+        elif event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+
+def win_screen_challenges(window, assets, state):
+    win_ch = pygame.image.load(assets['win_challenge']).convert_alpha()
+    win_ch = pygame.transform.scale(win_ch, (1280, 720))
+    window.blit(win_ch, (0, 0))
+    for event in pygame.event.get():
+        if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_SPACE):
+            state['tela_atual'] = 'menu'
+            state['vidas'] = 3
+            state['char_pos'] = (int(75/2), int(assets['height']/2))
+            state['is_moving'] = False
+        elif event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+

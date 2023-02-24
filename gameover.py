@@ -17,3 +17,6 @@ def game_over_screen(window, state, assets):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 state['tela_atual'] = 'menu'
+                state['vidas'] = 3
+                state['char_pos'] = (int(75/2), int(assets['height']/2))
+                state['is_moving'] = False
