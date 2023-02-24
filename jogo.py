@@ -6,6 +6,8 @@ from fase1 import fase1_instructions, fase1_game
 from fase2 import fase2_instructions, fase2_game
 from gameover import game_over_screen
 from fase3 import fase3_instructions, fase3_game
+from fase4 import fase4_game, fase4_instructions
+from fase5 import fase5_game, fase5_instructions
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -70,7 +72,7 @@ def gameloop(state, assets):
     window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("InSpace Toshi Bird")
     clock = pygame.time.Clock()
-    FPS = 100
+    FPS = 1000
 
     while True:
         if state['tela_atual'] == 'menu':
@@ -93,6 +95,15 @@ def gameloop(state, assets):
             fase3_instructions(window, assets, state)
         elif state['tela_atual'] == 'fase3':
             fase3_game(window, assets, state)
+        elif state['tela_atual'] == 'fase4':
+            fase4_game(window, assets, state)
+        elif state['tela_atual'] == 'fase4_instrucoes':
+            fase4_instructions(window, assets, state)
+        elif state['tela_atual'] == 'fase5':
+            fase5_game(window, assets, state)
+        elif state['tela_atual'] == 'fase5_instrucoes':
+            fase5_instructions(window, assets, state)
+        
 
         clock.tick(FPS)
         pygame.display.update()

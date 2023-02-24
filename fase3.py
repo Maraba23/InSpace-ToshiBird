@@ -52,6 +52,8 @@ def update_state(state, assets):
         if state['vidas'] == 0:
             state['tela_atual'] = 'game_over'
     elif target_reached(state):
+        sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")
+        sound_effect.play()
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         state['is_moving'] = False
         state['tela_atual'] = 'fase4_instrucoes'
