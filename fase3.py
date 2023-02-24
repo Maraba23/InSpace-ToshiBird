@@ -39,6 +39,10 @@ def update_state(state, assets):
         state['vidas'] -= 1
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         if state['vidas'] == 0:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.load(assets['gameover_song'])
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play()
             state['tela_atual'] = 'game_over'
     elif out_of_bounds(state):
         state['is_moving'] = False
@@ -48,6 +52,8 @@ def update_state(state, assets):
         if state['vidas'] == 0:
             state['tela_atual'] = 'game_over'
     elif target_reached(state):
+        sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")
+        sound_effect.play()
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         state['is_moving'] = False
         state['tela_atual'] = 'fase4_instrucoes'
