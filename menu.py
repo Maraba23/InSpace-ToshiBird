@@ -42,6 +42,8 @@ def win_screen_no_challenges(window, assets, state):
     window.blit(win_no, (0, 0))
     for event in pygame.event.get():
         if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_SPACE):
+            pygame.mixer.music.load(assets['e_sound'])
+            pygame.mixer.music.set_volume(0.5)
             state['tela_atual'] = 'menu'
             state['vidas'] = 3
             state['char_pos'] = (int(75/2), int(assets['height']/2))
@@ -56,6 +58,8 @@ def win_screen_challenges(window, assets, state):
     window.blit(win_ch, (0, 0))
     for event in pygame.event.get():
         if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_SPACE):
+            pygame.mixer.music.load(assets['e_sound'])
+            pygame.mixer.music.set_volume(0.5)
             state['tela_atual'] = 'menu'
             state['vidas'] = 3
             state['char_pos'] = (int(75/2), int(assets['height']/2))

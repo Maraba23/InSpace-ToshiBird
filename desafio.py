@@ -21,8 +21,14 @@ def desafio_instructions(window, assets, state):
             exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("musicas/Dark souls.mp3")
+                pygame.mixer.music.play(-1)
                 state['tela_atual'] = 'desafio'
             elif event.key == pygame.K_RETURN:
+                pygame.mixer.music.stop()
+                sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")
+                sound_effect.play()
                 state['tela_atual'] = 'win_no_challenge'
                 state['vidas'] = 3
                 state['char_pos'] = (int(75/2), int(assets['height']/2))
@@ -52,13 +58,24 @@ def update_state(state, assets):
     state['char_pos'] = (state['char_pos'][0] + state['char_vel'][0], state['char_pos'][1] + state['char_vel'][1])
     # check if the character reached the target
     if target_reached(state):
+        pygame.mixer.music.stop()
+        sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")
+        sound_effect.play()
         state['tela_atual'] = 'win_challenge'
     # check if the character is out of bounds
     if out_of_bounds(state):
-        state['tela_atual'] = 'win_no_challenge'
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(assets['gameover_song'])
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play()
+        state['tela_atual'] = 'game_over'
     # check if the character collided with the planet
     if collision_planeta(state):
-        state['tela_atual'] = 'win_no_challenge'
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(assets['gameover_song'])
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play()
+        state['tela_atual'] = 'game_over'
 
 def desafio_game(window, assets, state):
     if state['vidas'] == 5:

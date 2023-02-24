@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import moviepy.editor as mp
 import random
 from menu import main_menu, story_screen, instructions_screen, win_screen_no_challenges, win_screen_challenges
 from fase1 import fase1_instructions, fase1_game
@@ -30,6 +31,7 @@ assets = {'width': SCREEN_WIDTH,
           'instructions': 'images/instructions.png',
           'e_sound': 'musicas/RUSH E [vocals] (mp3cut.net).mp3',
           'gameover_song': 'musicas/Curb_Your_Enthusiasm_Meme_Frolic_-_Background_Music_HD.mp3',
+          'giorno' : 'musicas/Giorno.mp3',
           'fases_5vidas': 'images/fases_5vidas.png',
           'fases_4vidas': 'images/fases_4vidas.png',
           'fases_3vidas': 'images/fases_3vidas.png',
@@ -122,6 +124,7 @@ def gameloop(state, assets):
             win_screen_no_challenges(window, assets, state)
         elif state['tela_atual'] == 'win_challenge':
             win_screen_challenges(window, assets, state)
+
 
         clock.tick(FPS)
         pygame.display.update()

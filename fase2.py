@@ -47,7 +47,7 @@ def update_state(state, assets):
             pygame.mixer.music.play()
             state['tela_atual'] = 'game_over'
     elif target_reached(state):
-        sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")
+        sound_effect = pygame.mixer.Sound("wavs/RUSH-E-_vocals_-_mp3cut.net_.wav")
         sound_effect.play()
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         state['is_moving'] = False
