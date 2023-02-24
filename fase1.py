@@ -33,13 +33,14 @@ def update_state(state, assets):
     state['char_pos'] = (state['char_pos'][0] + state['char_vel'][0], state['char_pos'][1] + state['char_vel'][1])
     # update the character velocity
     state['char_vel'] = (state['char_vel'][0] + state['char_acc'][0], state['char_vel'][1] + state['char_acc'][1])
-    print(state['char_acc'])
+    # print(state['char_acc'])
     if collision_planeta(state):
         state['is_moving'] = False
         state['tela_atual'] = 'fase1'
         state['vidas'] -= 1
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         if state['vidas'] == 0:
+            pygame.mixer.music.load(assets['gameover_song'])
             state['tela_atual'] = 'game_over'
     elif out_of_bounds(state):
         state['is_moving'] = False
@@ -47,13 +48,22 @@ def update_state(state, assets):
         state['vidas'] -= 1
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         if state['vidas'] == 0:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.load(assets['gameover_song'])
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play()
             state['tela_atual'] = 'game_over'
     elif target_reached(state):
+        sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")
+        sound_effect.play()
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         state['is_moving'] = False
         state['tela_atual'] = 'fase2_instrucoes'
 
 def fase1_instructions(window, assets, state):
+    pygame.mixer.music.load(assets['giorno'])
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play()
     img = pygame.image.load(assets['fase1_instrucoes']).convert()
     img = pygame.transform.scale(img, (1280, 720))
     window.blit(img, (0, 0))

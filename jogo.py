@@ -26,7 +26,8 @@ assets = {'width': SCREEN_WIDTH,
           'story': 'images/story.png',
           'instructions': 'images/instructions.png',
           'e_sound': 'musicas/RUSH E [vocals] (mp3cut.net).mp3',
-          'gameover_song': 'musicas/Curb_Your_Enthusiasm_Meme_Frolic_-_Background_Music_HD.mp3',
+          'gameover_song': 'musicas/morre.mp3',
+          'giorno' : 'musicas/Giorno.mp3',
           'fases_3vidas': 'images/fases_3vidas.png',
           'fases_2vidas': 'images/fases_2vidas.png',
           'fases_1vidas': 'images/fases_1vidas.png',
@@ -56,13 +57,16 @@ state = {'tela_atual': 'menu',
          'is_moving': False,
          'target_pos': ((1190, 196), (1280, 305))}
 
-pygame.mixer.init()
+pygame.init()
+pygame.mixer.init(frequency=44100, size=-16)
 pygame.mixer.music.load(assets['e_sound'])
 pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play()
+
+sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")
+sound_effect_e = pygame.mixer.Sound("wavs/RUSH-E-_vocals_-_mp3cut.net_.wav")
 
 def gameloop(state, assets):
-    pygame.init()
+    pygame.mixer.music.play()
     window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("InSpace Toshi Bird")
     clock = pygame.time.Clock()
