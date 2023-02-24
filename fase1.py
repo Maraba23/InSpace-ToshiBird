@@ -33,7 +33,6 @@ def update_state(state, assets):
     state['char_pos'] = (state['char_pos'][0] + state['char_vel'][0], state['char_pos'][1] + state['char_vel'][1])
     # update the character velocity
     state['char_vel'] = (state['char_vel'][0] + state['char_acc'][0], state['char_vel'][1] + state['char_acc'][1])
-    print(state['char_acc'])
     if collision_planeta(state):
         state['is_moving'] = False
         state['tela_atual'] = 'fase1'
@@ -90,6 +89,7 @@ def fase1_game(window, assets, state):
             exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
+                state['vidas'] = 3
                 state['tela_atual'] = 'menu'
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1 and not state['is_moving']:

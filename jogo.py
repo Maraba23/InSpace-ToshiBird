@@ -6,6 +6,8 @@ from fase1 import fase1_instructions, fase1_game
 from fase2 import fase2_instructions, fase2_game
 from gameover import game_over_screen
 from fase3 import fase3_instructions, fase3_game
+from fase4 import fase4_instructions, fase4_game
+from fase5 import fase5_instructions, fase5_game
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -27,14 +29,20 @@ assets = {'width': SCREEN_WIDTH,
           'instructions': 'images/instructions.png',
           'e_sound': 'musicas/RUSH E [vocals] (mp3cut.net).mp3',
           'gameover_song': 'musicas/Curb_Your_Enthusiasm_Meme_Frolic_-_Background_Music_HD.mp3',
+          'fases_5vidas': 'images/fases_5vidas.png',
+          'fases_4vidas': 'images/fases_4vidas.png',
           'fases_3vidas': 'images/fases_3vidas.png',
           'fases_2vidas': 'images/fases_2vidas.png',
           'fases_1vidas': 'images/fases_1vidas.png',
           'character': 'images/toshi.png',
           'planeta': 'images/planeta.png',
+          'buraco_negro': 'images/buraco_negro.png',
+          'buraco_branco': 'images/buraco_branco.png',
           'fase1_instrucoes': 'images/fase1_instrucoes.png',
           'fase2_instrucoes': 'images/fase2_instrucoes.png',
-          'fase3_instrucoes': 'images/fase3_instrucoes.png'}
+          'fase3_instrucoes': 'images/fase3_instrucoes.png',
+          'fase4_instrucoes': 'images/fase4_instrucoes.png',
+          'fase5_instrucoes': 'images/fase5_instrucoes.png'}
 
 telas = ['menu', 'story', 'instructions', 'fase1_instrucoes', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
 
@@ -47,8 +55,11 @@ state = {'tela_atual': 'menu',
          'planeta1_pos': (610, 430),
          'planeta2_pos': (planeta_pos_x, planeta_pos_y),
          'planeta3_pos': ((planeta1_x, planeta1_y), (planeta2_x, planeta2_y)),
+         'buraco_negro_pos': (610, 430),
+         'buraco_branco_pos': (500, 25),
          'planeta1_mass': 1500,
          'planeta2_mass': 1000,
+         'buraco_negro_mass': 10000,
          'char_pos': (int(75/2), int(assets['height']/2)),
          'char_vel': (0, 0),
          'char_acc': (0, 0),
@@ -89,6 +100,14 @@ def gameloop(state, assets):
             fase3_instructions(window, assets, state)
         elif state['tela_atual'] == 'fase3':
             fase3_game(window, assets, state)
+        elif state['tela_atual'] == 'fase4_instrucoes':
+            fase4_instructions(window, assets, state)
+        elif state['tela_atual'] == 'fase4':
+            fase4_game(window, assets, state)
+        elif state['tela_atual'] == 'fase5_instrucoes':
+            fase5_instructions(window, assets, state)
+        elif state['tela_atual'] == 'fase5':
+            fase5_game(window, assets, state)
 
         clock.tick(FPS)
         pygame.display.update()

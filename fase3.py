@@ -92,6 +92,7 @@ def fase3_game(window, assets, state):
             exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
+                state['vidas'] = 3
                 state['tela_atual'] = 'menu'
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1 and not state['is_moving']:
