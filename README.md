@@ -15,6 +15,10 @@ To recover it you must reach the targets in space, using your mouse cursor to mo
 The game has five main levels; after you reach the fifth one, you won! However, you can choose to play a challenge level in order to get a giant coxinha.
 We will guide you through all the levels, so you can get the coxinha back!
 
+Click on the image below to watch the game trailer:
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/v=sAsAOLrksyc/0.jpg)](https://www.youtube.com/watch?v=sAsAOLrksyc)
+
 ### How to play:
 1. Make sure you have Python 3.9 or higher installed on your computer.
 2. Download the repository.
