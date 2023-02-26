@@ -4,23 +4,23 @@ import math
 
 G_CONST = 10
 
-def dist(p1, p2):
+def dist(p1, p2): # Calcula a distância entre dois pontos
     return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
 
-def target_reached(state):
+def target_reached(state): # Verifica se o personagem chegou no alvo
     target_rect = pygame.Rect(state['target_pos'][0][0], state['target_pos'][0][1], state['target_pos'][1][0] - state['target_pos'][0][0], state['target_pos'][1][1] - state['target_pos'][0][1])
     char_rect = pygame.Rect(state['char_pos'][0], state['char_pos'][1], 75, 75)
     return char_rect.colliderect(target_rect)
 
-def collision_planeta(state):
+def collision_planeta(state): # Verifica se o personagem colidiu com os planetas
     planeta_rect = pygame.Rect(state['planeta1_pos'][0], state['planeta1_pos'][1], 120, 120)
     char_rect = pygame.Rect(state['char_pos'][0], state['char_pos'][1], 75, 75)
     return char_rect.colliderect(planeta_rect)
 
-def out_of_bounds(state):
+def out_of_bounds(state): # Verifica se o personagem saiu da tela
     return state['char_pos'][0] < 0 or state['char_pos'][0] > 1280 or state['char_pos'][1] < 0 or state['char_pos'][1] > 860
 
-def update_state(state, assets):
+def update_state(state, assets): # Atualiza o estado do jogo
     f_grav = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta1_pos']) ** 2)
     # get the angle between the character and the center of the planet
     angle_p = math.atan2(state['planeta1_pos'][1] - state['char_pos'][1], state['planeta1_pos'][0] - state['char_pos'][0])
@@ -34,36 +34,36 @@ def update_state(state, assets):
     # update the character velocity
     state['char_vel'] = (state['char_vel'][0] + state['char_acc'][0], state['char_vel'][1] + state['char_acc'][1])
     # print(state['char_acc'])
-    if collision_planeta(state):
+    if collision_planeta(state): # Verifica se o personagem colidiu com os planetas
         state['is_moving'] = False
         state['tela_atual'] = 'fase1'
         state['vidas'] -= 1
         state['char_pos'] = (int(75/2), int(assets['height']/2))
-        if state['vidas'] == 0:
+        if state['vidas'] == 0: # Verifica se o personagem perdeu todas as vidas e vai para a tela de game over
             pygame.mixer.music.stop()
             pygame.mixer.music.load(assets['gameover_song'])
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play()
             state['tela_atual'] = 'game_over'
-    elif out_of_bounds(state):
+    elif out_of_bounds(state): # Usa a função out_of_bounds para verificar se o personagem saiu da tela
         state['is_moving'] = False
         state['tela_atual'] = 'fase1'
         state['vidas'] -= 1
         state['char_pos'] = (int(75/2), int(assets['height']/2))
-        if state['vidas'] == 0:
+        if state['vidas'] == 0: # Verifica se o personagem perdeu todas as vidas e vai para a tela de game over
             pygame.mixer.music.stop()
             pygame.mixer.music.load(assets['gameover_song'])
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play()
             state['tela_atual'] = 'game_over'
-    elif target_reached(state):
+    elif target_reached(state): # Usa a função target_reached para verificar se o personagem chegou no alvo
         sound_effect = pygame.mixer.Sound("wavs/RUSH-E-_vocals_-_mp3cut.net_.wav")
         sound_effect.play()
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         state['is_moving'] = False
         state['tela_atual'] = 'fase2_instrucoes'
 
-def fase1_instructions(window, assets, state):
+def fase1_instructions(window, assets, state): # Tela de instruções da fase 1
     pygame.mixer.music.load(assets['giorno'])
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play()
@@ -74,11 +74,12 @@ def fase1_instructions(window, assets, state):
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-        elif event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN: # Verifica se o jogador apertou a tecla espaço para ir para a fase 1
             if event.key == pygame.K_SPACE:
                 state['tela_atual'] = 'fase1'
 
-def fase1_game(window, assets, state):
+def fase1_game(window, assets, state): # Tela da fase 1
+    # caso a vida do personagem seja 3, a imagem da fase 3 vidas é carregada se a vida for 2, a imagem da fase 2 vidas é carregada e se a vida for 1, a imagem da fase 1 vida é carregada
     if state['vidas'] == 3:
         fase = pygame.image.load(assets['fases_3vidas']).convert()
         fase = pygame.transform.scale(fase, (1280, 720))
@@ -102,13 +103,13 @@ def fase1_game(window, assets, state):
             pygame.quit()
             exit()
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
+            if event.key == pygame.K_RETURN: # Verifica se o jogador apertou a tecla enter para ir para o menu principal e reiniciar o jogo
                 state['tela_atual'] = 'menu'
                 state['vidas'] = 3
                 state['char_pos'] = (int(75/2), int(assets['height']/2))
                 state['is_moving'] = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1 and not state['is_moving']:
+        elif event.type == pygame.MOUSEBUTTONDOWN: # Verifica se o jogador apertou o botão esquerdo do mouse para lançar o personagem
+            if event.button == 1 and not state['is_moving']: # Verifica se o personagem não está se movendo para que ele não possa ser lançado mais de uma vez
                 # get mouse position
                 mouse_pos = event.pos
                 # launch the character in the direction of the mouse
@@ -121,5 +122,5 @@ def fase1_game(window, assets, state):
                 # launch the character with uniform velocity
                 state['char_vel'] = (vel_x, vel_y)
                 state['char_acc'] = (0, 0)
-    if state['is_moving']:
+    if state['is_moving']: # Verifica se o personagem está se movendo para que ele possa ser atualizado
         update_state(state, assets)

@@ -1,5 +1,4 @@
 import pygame
-import moviepy.editor as mp
 
 def game_over_screen(window, state, assets):
     img = pygame.image.load(assets['gameover']).convert()

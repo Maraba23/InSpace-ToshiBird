@@ -5,13 +5,13 @@ from fase1 import dist, target_reached, out_of_bounds
 
 G_CONST = 10
 
-def collision_planeta(state):
+def collision_planeta(state): # Função que verifica se o personagem colidiu com o planeta
     planeta1_rect = pygame.Rect(state['planeta4_pos'][0][0], state['planeta4_pos'][0][1], 120, 120)
     planeta2_rect = pygame.Rect(state['planeta4_pos'][1][0], state['planeta4_pos'][1][1], 120, 120)
     char_rect = pygame.Rect(state['char_pos'][0], state['char_pos'][1], 75, 75)
     return char_rect.colliderect(planeta1_rect) or char_rect.colliderect(planeta2_rect)
 
-def desafio_instructions(window, assets, state):
+def desafio_instructions(window, assets, state): # Tela de instruções do desafio
     img = pygame.image.load(assets['desafio_instrucoes']).convert()
     img = pygame.transform.scale(img, (1280, 720))
     window.blit(img, (0, 0))
@@ -20,12 +20,12 @@ def desafio_instructions(window, assets, state):
             pygame.quit()
             exit()
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE: # Se o usuário apertar espaço, a música muda e a tela atual muda para o desafio
                 pygame.mixer.music.stop()
                 pygame.mixer.music.load("musicas/Dark souls.mp3")
                 pygame.mixer.music.play(-1)
                 state['tela_atual'] = 'desafio'
-            elif event.key == pygame.K_RETURN:
+            elif event.key == pygame.K_RETURN: # Se o usuário apertar enter, a música muda e a tela atual muda para a tela de vitória sem desafio
                 pygame.mixer.music.stop()
                 sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")
                 sound_effect.play()
@@ -34,7 +34,7 @@ def desafio_instructions(window, assets, state):
                 state['char_pos'] = (int(75/2), int(assets['height']/2))
                 state['is_moving'] = False
 
-def update_state(state, assets):
+def update_state(state, assets): # Função que atualiza o estado do jogo
     f_grav = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta4_pos'][0]) ** 2)
     f_grav2 = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta4_pos'][1]) ** 2)
     # get the angle between the character and the center of the planet
@@ -57,27 +57,28 @@ def update_state(state, assets):
     # update the position
     state['char_pos'] = (state['char_pos'][0] + state['char_vel'][0], state['char_pos'][1] + state['char_vel'][1])
     # check if the character reached the target
-    if target_reached(state):
+    if target_reached(state): # Se o personagem chegar no alvo, a música muda e a tela atual muda para a tela de vitória com desafio
         pygame.mixer.music.stop()
         sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")
         sound_effect.play()
         state['tela_atual'] = 'win_challenge'
     # check if the character is out of bounds
-    if out_of_bounds(state):
+    if out_of_bounds(state): # Se o personagem sair da tela, a música muda e a tela atual muda para a tela de game over
         pygame.mixer.music.stop()
         pygame.mixer.music.load(assets['gameover_song'])
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play()
         state['tela_atual'] = 'game_over'
     # check if the character collided with the planet
-    if collision_planeta(state):
+    if collision_planeta(state): # Se o personagem colidir com o planeta, a música muda e a tela atual muda para a tela de game over
         pygame.mixer.music.stop()
         pygame.mixer.music.load(assets['gameover_song'])
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play()
         state['tela_atual'] = 'game_over'
 
-def desafio_game(window, assets, state):
+def desafio_game(window, assets, state): # Função que desenha o desafio
+    # o desafio nao tem vidas, apenas 1 tentativa
     if state['vidas'] == 5:
         fase = pygame.image.load(assets['fases_5vidas']).convert()
         fase = pygame.transform.scale(fase, (1280, 720))
@@ -122,12 +123,13 @@ def desafio_game(window, assets, state):
         if event.type == pygame.QUIT:
             exit()
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
+            if event.key == pygame.K_RETURN: # Se o jogador apertar enter, a música muda e a tela atual muda para a tela de menu
                 state['tela_atual'] = 'menu'
                 state['vidas'] = 3
                 state['char_pos'] = (int(75/2), int(assets['height']/2))
                 state['is_moving'] = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONDOWN: # Se o jogador clicar com o mouse, o personagem é lançado na direção do mouse
+            # o segredo do desafio eh poder se mover varias vezes, para facilitar o processo
             if event.button == 1:
                 # get mouse position
                 mouse_pos = event.pos

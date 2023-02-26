@@ -1,6 +1,5 @@
 import pygame
 import numpy as np
-import moviepy.editor as mp
 import random
 from menu import main_menu, story_screen, instructions_screen, win_screen_no_challenges, win_screen_challenges
 from fase1 import fase1_instructions, fase1_game
@@ -15,9 +14,9 @@ SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 BLACK = (0, 0, 0)
 
-planeta_pos_x, planeta_pos_y = random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6)
+planeta_pos_x, planeta_pos_y = random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6) # Posição do planeta
 
-planeta1_x, planeta1_y, planeta2_x, planeta2_y = random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6), random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6)
+planeta1_x, planeta1_y, planeta2_x, planeta2_y = random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6), random.randint(SCREEN_WIDTH * 0.3, SCREEN_WIDTH * 0.7), random.randint(SCREEN_HEIGHT * 0.4, SCREEN_HEIGHT * 0.6) # Posição do planetas
 
 assets = {'width': SCREEN_WIDTH,
           'height': SCREEN_HEIGHT,
@@ -48,9 +47,9 @@ assets = {'width': SCREEN_WIDTH,
           'fase5_instrucoes': 'images/fase5_instrucoes.png',
           'desafio_instrucoes': 'images/desafio_instrucoes.png',
           'win_no_challenge': 'images/win_no.png',
-          'win_challenge': 'images/win_challenge.png'}
+          'win_challenge': 'images/win_challenge.png'} # Dicionário com os assets do jogo
 
-telas = ['menu', 'story', 'instructions', 'fase1_instrucoes', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win']
+telas = ['menu', 'story', 'instructions', 'fase1_instrucoes', 'fase1', 'fase2', 'fase3', 'fase4', 'desafio', 'game_over', 'win'] # Lista com as telas do jogo
 
 state = {'tela_atual': 'menu',
          'quit': False,
@@ -73,9 +72,9 @@ state = {'tela_atual': 'menu',
          'char_acc': (0, 0),
          'char_mass': 1,
          'is_moving': False,
-         'target_pos': ((1190, 196), (1280, 305))}
+         'target_pos': ((1190, 196), (1280, 305))} # Dicionário com o estado do jogo
 
-pygame.mixer.init()
+pygame.mixer.init() # Inicializa o mixer do pygame (musica e efeitos sonoros)
 pygame.mixer.music.load(assets['e_sound'])
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play()
@@ -88,6 +87,7 @@ def gameloop(state, assets):
     FPS = 100
 
     while True:
+        # Atualiza as telas do jogo
         if state['tela_atual'] == 'menu':
             main_menu(window, assets, state)
         elif state['tela_atual'] == 'story':
@@ -125,7 +125,7 @@ def gameloop(state, assets):
         elif state['tela_atual'] == 'win_challenge':
             win_screen_challenges(window, assets, state)
 
-
+        # Atualiza o estado do jogo
         clock.tick(FPS)
         pygame.display.update()
 
