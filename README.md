@@ -17,7 +17,7 @@ We will guide you through all the levels, so you can get the coxinha back!
 
 Click on the image below to watch the game trailer:
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/v=sAsAOLrksyc/0.jpg)](https://www.youtube.com/watch?v=sAsAOLrksyc)
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/sAsAOLrksyc/0.jpg)](http://www.youtube.com/watch?v=sAsAOLrksyc "InSpace Toshi Bird Trailer")
 
 ### How to play:
 1. Make sure you have Python 3.9 or higher installed on your computer.
