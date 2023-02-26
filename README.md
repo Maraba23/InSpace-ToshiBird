@@ -2,7 +2,7 @@
 
 This is a project for the Linear Algebra course at Insper Learning Institute.
 
-![Alt Text](./images/inspace_toshibird.gif)
+<img alt="Alt Text" src="./images/inspace_toshibird.gif"/>
 
 ### Authors:
 - Marcelo Rabello Barranco
