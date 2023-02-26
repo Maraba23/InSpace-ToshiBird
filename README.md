@@ -1,4 +1,4 @@
-# Space-birds-project
+# InSpace Toshi Bird :rocket:
 
 This is a project for the Linear Algebra course at Insper Learning Institute.
 
