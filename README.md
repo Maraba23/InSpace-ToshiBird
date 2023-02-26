@@ -1,11 +1,8 @@
 # Space-birds-project
 
-<script
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-  type="text/javascript">
-</script>
-
 This is a project for the Linear Algebra course at Insper Learning Institute.
+
+![Alt Text](./images/inspace_toshibird.gif)
 
 ### Authors:
 - Marcelo Rabello Barranco
