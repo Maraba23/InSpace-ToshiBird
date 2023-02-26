@@ -74,4 +74,3 @@ Where:
 
 The position is updated at every tick of the game. 
 All of these formulae are implemented in the `update_state` function of every level, where we start by calculating the gravitational force between the bodies, followed by calculating the angle between them to calculate the acceleration the character will suffer due to gravity. The character starts at a speed of 20, which varies according to the forces implemented.
-
