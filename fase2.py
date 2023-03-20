@@ -29,8 +29,6 @@ def update_state(state, assets):
     # calculate the acceleration vector
     acc = f_grav * r_hat
 
-    print(acc)
-
     # update the character acceleration
     state['char_acc'] = acc
 

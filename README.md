@@ -48,7 +48,7 @@ Where:
 
 The gravitational force is then used to calculate the acceleration of the character, using the formulae below:
 
-$$a = \frac{F}{m}$$
+$$a = {FG * r_hat}
 
 Where:
 - a is the acceleration of the character

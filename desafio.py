@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 from fase1 import dist, target_reached, out_of_bounds
+import numpy as np
 
 G_CONST = 10
 
@@ -35,28 +36,30 @@ def desafio_instructions(window, assets, state): # Tela de instruções do desaf
                 state['is_moving'] = False
 
 def update_state(state, assets): # Função que atualiza o estado do jogo
-    f_grav = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta4_pos'][0]) ** 2)
-    f_grav2 = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta4_pos'][1]) ** 2)
-    # get the angle between the character and the center of the planet
-    angle_p = math.atan2(state['planeta4_pos'][0][1] - state['char_pos'][1], state['planeta4_pos'][0][0] - state['char_pos'][0])
-    angle_p2 = math.atan2(state['planeta4_pos'][1][1] - state['char_pos'][1], state['planeta4_pos'][1][0] - state['char_pos'][0])
-    # calculate the force vector
-    f_x = f_grav * math.cos(angle_p)
-    f_y = f_grav * math.sin(angle_p)
-    f_x2 = f_grav2 * math.cos(angle_p2)
-    f_y2 = f_grav2 * math.sin(angle_p2)
-    # calculate the acceleration
-    a_x = f_x / state['char_mass']
-    a_y = f_y / state['char_mass']
-    a_x2 = f_x2 / state['char_mass']
-    a_y2 = f_y2 / state['char_mass']
-    # update the acceleration
-    state['char_acc'] = (a_x + a_x2, a_y + a_y2)
-    # update the velocity
-    state['char_vel'] = (state['char_vel'][0] + state['char_acc'][0], state['char_vel'][1] + state['char_acc'][1])
-    # update the position
-    state['char_pos'] = (state['char_pos'][0] + state['char_vel'][0], state['char_pos'][1] + state['char_vel'][1])
-    # check if the character reached the target
+    char_mass = state['char_mass']
+    planeta1_mass = state['planeta1_mass']
+    planeta2_mass = state['planeta1_mass']
+    char_pos = np.array(state['char_pos'])
+    planeta1_pos = np.array(state['planeta4_pos'][0])
+    planeta2_pos = np.array(state['planeta4_pos'][1])
+    char_vel = np.array(state['char_vel'])
+
+    r = dist(state['char_pos'], state['planeta4_pos'][0])
+    r2 = dist(state['char_pos'], state['planeta4_pos'][1])
+    r_norm = np.linalg.norm(r)
+    r_norm2 = np.linalg.norm(r2)
+    r_hat = r / r_norm
+    r_hat2 = r2 / r_norm2
+    f_grav = (G_CONST * char_mass * planeta1_mass) / (r_norm ** 2)
+    f_grav2 = (G_CONST * char_mass * planeta2_mass) / (r_norm2 ** 2)
+
+    acc = (f_grav * r_hat + f_grav2 * r_hat2) / char_mass
+    state['char_acc'] = acc
+    dt = 1
+    state['char_vel'] = char_vel + acc * dt
+    state['char_pos'] = char_pos + char_vel
+
+
     if target_reached(state): # Se o personagem chegar no alvo, a música muda e a tela atual muda para a tela de vitória com desafio
         pygame.mixer.music.stop()
         sound_effect = pygame.mixer.Sound("wavs/Happy-Wheels.wav")

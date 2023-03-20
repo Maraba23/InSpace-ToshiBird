@@ -37,9 +37,7 @@ def update_state(state, assets):
     f_grav = (G_CONST * char_mass * planeta1_mass) / (r_norm ** 2)
 
     # calculate the acceleration vector
-    acc = f_grav * r_hat
-
-    print(acc)
+    acc = r_hat * f_grav / char_mass
 
     # update the character acceleration
     state['char_acc'] = acc

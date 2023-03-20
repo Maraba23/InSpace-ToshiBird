@@ -13,23 +13,21 @@ def collision_planeta(state): # Função que verifica se o personagem colidiu co
 
 def update_state(state, assets):
     char_mass = state['char_mass']
-    planeta1_mass = state['planeta1_mass']
+    buraco_negro = state['buraco_negro_mass']
     char_pos = np.array(state['char_pos'])
-    planeta1_pos = np.array(state['planeta1_pos'])
+    buraco_negro_pos = np.array(state['buraco_negro_pos'])
     char_vel = np.array(state['char_vel'])
 
     # calculate the distance and direction vector between the character and the planet
-    r = planeta1_pos - char_pos
+    r = buraco_negro_pos - char_pos
     r_norm = np.linalg.norm(r)
     r_hat = r / r_norm
 
     # calculate the gravitational force
-    f_grav = (G_CONST * char_mass * planeta1_mass) / (r_norm ** 2)
+    f_grav = (G_CONST * char_mass * buraco_negro) / (r_norm ** 2)
 
     # calculate the acceleration vector
     acc = f_grav * r_hat
-
-    print(acc)
 
     # update the character acceleration
     state['char_acc'] = acc
