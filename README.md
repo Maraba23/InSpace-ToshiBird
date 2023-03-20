@@ -48,12 +48,34 @@ Where:
 
 The gravitational force is then used to calculate the acceleration of the character, using the formulae below:
 
-$$a = {FG * r_hat}
+$$a = {FG * rhat}$$
+
+This line calculates the acceleration vector of the character due to the gravitational force between the character and the planet.
+
+The gravitational force between two objects with masses m1 and m2 separated by a distance r is given by:
+
+$$FG = \frac{G * m1 * m2}{r^2}$$
+
+where G is the gravitational constant.
+
+The direction of the gravitational force is along the line connecting the two objects, and the magnitude of the force is proportional to the product of their masses and inversely proportional to the square of the distance between them.
+
+To calculate the acceleration vector, we need to divide the gravitational force vector by the mass of the character. The resulting equation for the acceleration vector is:
+
+$$a = \frac{FG}{m_char} = \frac{\frac{G * m1 * m2}{r^2}}{m_char}$$
+
+which can be simplified to:
+
+$$a = \frac{G * m1}{r^2}  r_hat$$
+
+where `r_hat` is a unit vector pointing from the character to the planet, and r_norm is the magnitude of the distance vector r.
+
+Therefore, the line `acc = FG * r_hat` calculates the gravitational acceleration vector of the character by multiplying the magnitude of the gravitational force by the unit vector r_hat pointing from the character to the planet.
 
 Where:
-- a is the acceleration of the character
-- F is the gravitational force between the character and the celestial body
-- m is the mass of the character
+- **a** is the acceleration of the character
+- **FG** is the gravitational force between the character and the celestial body
+- **rhat** is the unit vector pointing from the character to the celestial body
 
 The acceleration is then used to calculate the velocity of the character, using the formulae below:
 
@@ -61,7 +83,7 @@ $$v = v_0 + at$$
 
 Where:
 - v is the velocity of the character
-- v0 is the initial velocity of the character
+- v0 is the initial velocity of the character (or the previous velocity)
 - a is the acceleration of the character
 
 The velocity is then used to calculate the position of the character, using the formulae below:
