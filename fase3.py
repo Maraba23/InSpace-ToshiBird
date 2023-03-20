@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 from fase1 import dist, target_reached, out_of_bounds
+import numpy as np
 
 G_CONST = 10
 
@@ -11,28 +12,33 @@ def collision_planeta(state): # Função que verifica se o personagem colidiu co
     char_rect = pygame.Rect(state['char_pos'][0], state['char_pos'][1], 75, 75)
     return char_rect.colliderect(planeta1_rect) or char_rect.colliderect(planeta2_rect)
 
-def update_state(state, assets): # Função que atualiza o estado do jogo
-    # calculate the forces between the character and the planets
-    f_grav = (G_CONST * state['char_mass'] * state['planeta2_mass']) / (dist(state['char_pos'], state['planeta3_pos'][0]) ** 2)
-    f_grav_2 = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta3_pos'][1]) ** 2)
-    # get the angle between the character and the center of the planet
-    angle_p = math.atan2(state['planeta3_pos'][0][1] - state['char_pos'][1], state['planeta3_pos'][0][0] - state['char_pos'][0])
-    angle_p_2 = math.atan2(state['planeta3_pos'][1][1] - state['char_pos'][1], state['planeta3_pos'][1][0] - state['char_pos'][0])
-    # calculate the x and y components of the force
-    f_x = f_grav * math.cos(angle_p)
-    f_y = f_grav * math.sin(angle_p)
-    f_x_2 = f_grav_2 * math.cos(angle_p_2)
-    f_y_2 = f_grav_2 * math.sin(angle_p_2)
-    # calculate the acceleration
-    a_x = f_x / state['char_mass']
-    a_y = f_y / state['char_mass']
-    a_x_2 = f_x_2 / state['char_mass']
-    a_y_2 = f_y_2 / state['char_mass']
-    state['char_acc'] = [a_x + a_x_2, a_y + a_y_2]
-    # update the velocity
-    state['char_vel'] = (state['char_vel'][0] + state['char_acc'][0], state['char_vel'][1] + state['char_acc'][1])
-    # update the position
-    state['char_pos'] = (state['char_pos'][0] + state['char_vel'][0], state['char_pos'][1] + state['char_vel'][1])
+def update_state(state, assets):
+    char_mass = state['char_mass']
+    planeta1_mass = state['planeta1_mass']
+    char_pos = np.array(state['char_pos'])
+    planeta1_pos = np.array(state['planeta1_pos'])
+    char_vel = np.array(state['char_vel'])
+
+    # calculate the distance and direction vector between the character and the planet
+    r = planeta1_pos - char_pos
+    r_norm = np.linalg.norm(r)
+    r_hat = r / r_norm
+
+    # calculate the gravitational force
+    f_grav = (G_CONST * char_mass * planeta1_mass) / (r_norm ** 2)
+
+    # calculate the acceleration vector
+    acc = f_grav * r_hat
+
+    print(acc)
+
+    # update the character acceleration
+    state['char_acc'] = acc
+
+    # update the character position and velocity
+    dt = 1 # time step
+    state['char_pos'] = tuple(char_pos + char_vel * dt)
+    state['char_vel'] = char_vel + acc * dt
     if collision_planeta(state): # Se o personagem colidir com o planeta, ele volta para a posição inicial e perde uma vida
         state['is_moving'] = False
         state['tela_atual'] = 'fase3'

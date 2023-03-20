@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 from fase1 import dist, target_reached, out_of_bounds
+import numpy as np
 
 G_CONST = 10
 
@@ -10,20 +11,33 @@ def collision_planeta(state): # Função que verifica se o personagem colidiu co
     char_rect = pygame.Rect(state['char_pos'][0], state['char_pos'][1], 75, 75)
     return char_rect.colliderect(planeta_rect)
 
-def update_state(state, assets): # Função que atualiza o estado do jogo
-    f_grav = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta2_pos']) ** 2)
-    # get the angle between the character and the center of the planet
-    angle_p = math.atan2(state['planeta2_pos'][1] - state['char_pos'][1], state['planeta2_pos'][0] - state['char_pos'][0])
+def update_state(state, assets):
+    char_mass = state['char_mass']
+    planeta1_mass = state['planeta1_mass']
+    char_pos = np.array(state['char_pos'])
+    planeta1_pos = np.array(state['planeta1_pos'])
+    char_vel = np.array(state['char_vel'])
+
+    # calculate the distance and direction vector between the character and the planet
+    r = planeta1_pos - char_pos
+    r_norm = np.linalg.norm(r)
+    r_hat = r / r_norm
+
+    # calculate the gravitational force
+    f_grav = (G_CONST * char_mass * planeta1_mass) / (r_norm ** 2)
+
     # calculate the acceleration vector
-    acc_x = f_grav * math.cos(angle_p)
-    acc_y = f_grav * math.sin(angle_p)
+    acc = f_grav * r_hat
+
+    print(acc)
+
     # update the character acceleration
-    state['char_acc'] = (acc_x, acc_y)
-    # update the character position
-    state['char_pos'] = (state['char_pos'][0] + state['char_vel'][0], state['char_pos'][1] + state['char_vel'][1])
-    # update the character velocity
-    state['char_vel'] = (state['char_vel'][0] + state['char_acc'][0], state['char_vel'][1] + state['char_acc'][1])
-    # print(state['char_acc'])
+    state['char_acc'] = acc
+
+    # update the character position and velocity
+    dt = 1 # time step
+    state['char_pos'] = tuple(char_pos + char_vel * dt)
+    state['char_vel'] = char_vel + acc * dt
     if collision_planeta(state): # Se o personagem colidir com o planeta, ele volta para a posição inicial e perde uma vida
         state['is_moving'] = False
         state['tela_atual'] = 'fase2'

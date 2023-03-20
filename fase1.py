@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+import numpy as np
 
 G_CONST = 10
 
@@ -20,32 +21,36 @@ def collision_planeta(state): # Verifica se o personagem colidiu com os planetas
 def out_of_bounds(state): # Verifica se o personagem saiu da tela
     return state['char_pos'][0] < 0 or state['char_pos'][0] > 1280 or state['char_pos'][1] < 0 or state['char_pos'][1] > 860
 
-def update_state(state, assets): # Atualiza o estado do jogo
-    f_grav = (G_CONST * state['char_mass'] * state['planeta1_mass']) / (dist(state['char_pos'], state['planeta1_pos']) ** 2)
-    # get the angle between the character and the center of the planet
-    angle_p = math.atan2(state['planeta1_pos'][1] - state['char_pos'][1], state['planeta1_pos'][0] - state['char_pos'][0])
+def update_state(state, assets):
+    char_mass = state['char_mass']
+    planeta1_mass = state['planeta1_mass']
+    char_pos = np.array(state['char_pos'])
+    planeta1_pos = np.array(state['planeta1_pos'])
+    char_vel = np.array(state['char_vel'])
+
+    # calculate the distance and direction vector between the character and the planet
+    r = planeta1_pos - char_pos
+    r_norm = np.linalg.norm(r)
+    r_hat = r / r_norm
+
+    # calculate the gravitational force
+    f_grav = (G_CONST * char_mass * planeta1_mass) / (r_norm ** 2)
+
     # calculate the acceleration vector
-    acc_x = f_grav * math.cos(angle_p)
-    acc_y = f_grav * math.sin(angle_p)
+    acc = f_grav * r_hat
+
+    print(acc)
+
     # update the character acceleration
-    state['char_acc'] = (acc_x, acc_y)
-    # update the character position
-    state['char_pos'] = (state['char_pos'][0] + state['char_vel'][0], state['char_pos'][1] + state['char_vel'][1])
-    # update the character velocity
-    state['char_vel'] = (state['char_vel'][0] + state['char_acc'][0], state['char_vel'][1] + state['char_acc'][1])
-    # print(state['char_acc'])
-    if collision_planeta(state): # Verifica se o personagem colidiu com os planetas
-        state['is_moving'] = False
-        state['tela_atual'] = 'fase1'
-        state['vidas'] -= 1
-        state['char_pos'] = (int(75/2), int(assets['height']/2))
-        if state['vidas'] == 0: # Verifica se o personagem perdeu todas as vidas e vai para a tela de game over
-            pygame.mixer.music.stop()
-            pygame.mixer.music.load(assets['gameover_song'])
-            pygame.mixer.music.set_volume(0.5)
-            pygame.mixer.music.play()
-            state['tela_atual'] = 'game_over'
-    elif out_of_bounds(state): # Usa a função out_of_bounds para verificar se o personagem saiu da tela
+    state['char_acc'] = acc
+
+    # update the character position and velocity
+    dt = 1 # time step
+    state['char_pos'] = tuple(char_pos + char_vel * dt)
+    state['char_vel'] = char_vel + acc * dt
+
+    # check for collisions and out of bounds
+    if collision_planeta(state) or out_of_bounds(state):
         state['is_moving'] = False
         state['tela_atual'] = 'fase1'
         state['vidas'] -= 1
@@ -62,6 +67,7 @@ def update_state(state, assets): # Atualiza o estado do jogo
         state['char_pos'] = (int(75/2), int(assets['height']/2))
         state['is_moving'] = False
         state['tela_atual'] = 'fase2_instrucoes'
+
 
 def fase1_instructions(window, assets, state): # Tela de instruções da fase 1
     pygame.mixer.music.load(assets['giorno'])
